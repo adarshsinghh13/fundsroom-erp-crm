@@ -3,6 +3,7 @@ import { env } from "../config/env.js";
 
 import authRoutes from "./auth.routes.js";
 import customerRoutes from "./customer.routes.js";
+import productRoutes from "./product.routes.js";
 
 const router = Router();
 
@@ -17,5 +18,6 @@ router.get("/health", (_req, res) => {
 
 router.use("/auth", authRoutes);
 router.use("/customers", customerRoutes);
+router.use("/products", productRoutes);
 
 export default router;
