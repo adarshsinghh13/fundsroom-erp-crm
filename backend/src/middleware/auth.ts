@@ -1,5 +1,4 @@
 import type { RequestHandler } from "express";
-import { TokenExpiredError, JsonWebTokenError } from "jsonwebtoken";
 
 import { prisma } from "../lib/prisma.js";
 import { AppError } from "../utils/errors.js";

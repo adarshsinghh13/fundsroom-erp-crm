@@ -1,8 +1,9 @@
 import jwt, {
-  JsonWebTokenError,
   type JwtPayload,
   type SignOptions,
 } from "jsonwebtoken";
+
+const { JsonWebTokenError } = jwt;
 
 import { env } from "../config/env.js";
 import { UserRole } from "../../generated/prisma/enums.js";

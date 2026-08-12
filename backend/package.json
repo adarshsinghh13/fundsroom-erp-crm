@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "Mini ERP + CRM Operations Portal Backend",
   "private": true,
-  "main": "dist/server.js",
+  "type": "module",
+  "main": "dist/src/server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "prisma generate && tsc",
+    "build": "node -e \"fs.rmSync('dist',{recursive:true,force:true})\" && prisma generate && tsc",
     "postinstall": "prisma generate",
     "start": "node dist/src/server.js",
     "prisma:generate": "prisma generate",
