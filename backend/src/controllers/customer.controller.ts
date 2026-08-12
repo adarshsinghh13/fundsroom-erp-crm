@@ -28,8 +28,11 @@ export class CustomerController {
   };
 
   getCustomers = async (request: Request, response: Response): Promise<void> => {
+    console.log("[DEBUG controller] Reached getCustomers controller. request.user:", request.user, "request.query:", request.query);
     const query = listCustomersSchema.parse(request.query);
+    console.log("[DEBUG controller] Parsed query schema successfully:", query);
     const result = await customerService.getCustomers(query);
+    console.log("[DEBUG controller] Service returned result successfully.");
 
     response.status(200).json({
       success: true,

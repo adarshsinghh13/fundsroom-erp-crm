@@ -60,6 +60,7 @@ export class CustomerService {
   }
 
   async getCustomers(query: ListCustomersQuery): Promise<PaginatedCustomers> {
+    console.log("[DEBUG service] Reached CustomerService.getCustomers with query:", query);
     const skip = (query.page - 1) * query.limit;
 
     const whereCondition: Prisma.CustomerWhereInput = {
@@ -74,6 +75,7 @@ export class CustomerService {
         : undefined,
     };
 
+    console.log("[DEBUG service] Executing Prisma query findMany and count...");
     const [customers, total] = await Promise.all([
       prisma.customer.findMany({
         where: whereCondition,
@@ -84,6 +86,8 @@ export class CustomerService {
       }),
       prisma.customer.count({ where: whereCondition }),
     ]);
+
+    console.log("[DEBUG service] Prisma returned customers count:", customers.length, "total:", total);
 
     return {
       data: customers,
