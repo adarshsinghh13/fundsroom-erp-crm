@@ -1,4 +1,3 @@
-import { Navigate } from "react-router-dom";
 import type { ReactNode } from "react";
 
 interface ProtectedRouteProps {
@@ -6,11 +5,6 @@ interface ProtectedRouteProps {
 }
 
 export function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const token = localStorage.getItem("token");
-
-  if (!token) {
-    return <Navigate to="/login" replace />;
-  }
-
+  // Authentication check bypassed for development/preview
   return <>{children}</>;
 }

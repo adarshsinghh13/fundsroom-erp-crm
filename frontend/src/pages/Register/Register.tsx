@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { Eye, EyeOff, ArrowRight, Briefcase, ShieldCheck, Zap, BarChart3 } from "lucide-react";
+import { Eye, EyeOff, Briefcase, ShieldCheck, Zap, BarChart3, UserPlus } from "lucide-react";
 import api from "../../api/api";
 
 const FEATURES = [
@@ -9,13 +9,13 @@ const FEATURES = [
   { icon: ShieldCheck, title: "Secure & Reliable",  desc: "JWT-auth with role-based access control" },
 ];
 
-export function Login() {
+export function Register() {
   const navigate = useNavigate();
 
+  const [name, setName]         = useState("");
   const [email, setEmail]       = useState("");
   const [password, setPassword] = useState("");
   const [showPwd, setShowPwd]   = useState(false);
-  const [remember, setRemember] = useState(false);
   const [error, setError]       = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -24,13 +24,18 @@ export function Login() {
     setError("");
     setIsLoading(true);
     try {
-      const response = await api.post("/auth/login", { email, password });
-      const { token, user } = response.data.data;
+      // 1. Register the user
+      await api.post("/auth/register", { name, email, password });
+      
+      // 2. Automatically log them in
+      const loginResponse = await api.post("/auth/login", { email, password });
+      const { token, user } = loginResponse.data.data;
+      
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
       navigate("/dashboard", { replace: true });
     } catch (err: any) {
-      setError(err.response?.data?.message || "Invalid email or password.");
+      setError(err.response?.data?.message || "An error occurred during registration.");
     } finally {
       setIsLoading(false);
     }
@@ -69,13 +74,13 @@ export function Login() {
         {/* Hero copy */}
         <div>
           <h1 className="text-4xl xl:text-5xl font-bold text-white leading-tight tracking-tight">
-            Run your business<br />
+            Start managing your business<br />
             <span className="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
-              smarter, faster.
+              today.
             </span>
           </h1>
           <p className="mt-5 text-lg text-ink-400 leading-relaxed max-w-md">
-            The all-in-one ERP &amp; CRM platform for modern businesses — from inventory to invoicing, all in one place.
+            Join thousands of businesses managing their inventory, customers, and invoicing in one platform.
           </p>
 
           {/* Feature cards */}
@@ -101,7 +106,7 @@ export function Login() {
         <p className="text-xs text-ink-600">© 2025 FundsRoom. All rights reserved.</p>
       </div>
 
-      {/* ── Right panel — Login form ── */}
+      {/* ── Right panel — Register form ── */}
       <div className="relative flex flex-1 items-center justify-center p-6 sm:p-10 lg:p-12">
         <div className="w-full max-w-md">
           {/* Mobile brand */}
@@ -117,8 +122,8 @@ export function Login() {
           {/* Card */}
           <div className="rounded-2xl border border-white/10 bg-white/8 p-8 backdrop-blur-2xl shadow-elevation-3">
             <div className="mb-7">
-              <h2 className="text-2xl font-bold text-white tracking-tight">Welcome back</h2>
-              <p className="mt-1.5 text-sm text-ink-400">Sign in to your workspace</p>
+              <h2 className="text-2xl font-bold text-white tracking-tight">Create an account</h2>
+              <p className="mt-1.5 text-sm text-ink-400">Get started with your free workspace</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-5">
@@ -128,6 +133,19 @@ export function Login() {
                   {error}
                 </div>
               )}
+
+              {/* Name */}
+              <div className="space-y-1.5">
+                <label className="text-sm font-medium text-ink-300">Full Name</label>
+                <input
+                  type="text"
+                  placeholder="John Doe"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  className="w-full rounded-xl border border-white/12 bg-white/6 px-4 py-2.5 text-sm text-white placeholder:text-ink-600 focus:border-accent-500 focus:bg-white/10 focus:outline-none focus:ring-2 focus:ring-accent-500/25 transition-all"
+                />
+              </div>
 
               {/* Email */}
               <div className="space-y-1.5">
@@ -148,10 +166,11 @@ export function Login() {
                 <div className="relative">
                   <input
                     type={showPwd ? "text" : "password"}
-                    placeholder="Enter your password"
+                    placeholder="Create a password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
+                    minLength={6}
                     className="w-full rounded-xl border border-white/12 bg-white/6 px-4 py-2.5 pr-11 text-sm text-white placeholder:text-ink-600 focus:border-accent-500 focus:bg-white/10 focus:outline-none focus:ring-2 focus:ring-accent-500/25 transition-all"
                   />
                   <button
@@ -164,22 +183,6 @@ export function Login() {
                 </div>
               </div>
 
-              {/* Remember me */}
-              <div className="flex items-center justify-between">
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={remember}
-                    onChange={(e) => setRemember(e.target.checked)}
-                    className="h-4 w-4 rounded border-white/20 bg-white/8 accent-accent-500 cursor-pointer"
-                  />
-                  <span className="text-sm text-ink-400">Remember me</span>
-                </label>
-                <button type="button" className="text-sm text-accent-400 hover:text-accent-300 transition-colors font-medium">
-                  Forgot password?
-                </button>
-              </div>
-
               {/* Submit */}
               <button
                 type="submit"
@@ -189,21 +192,21 @@ export function Login() {
                 {isLoading ? (
                   <>
                     <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
-                    Signing in…
+                    Creating account…
                   </>
                 ) : (
                   <>
-                    Sign in
-                    <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
+                    <UserPlus size={16} />
+                    Sign up
                   </>
                 )}
               </button>
             </form>
 
             <div className="mt-6 text-center text-sm text-ink-400">
-              Don't have an account?{" "}
-              <Link to="/register" className="font-semibold text-accent-400 hover:text-accent-300 transition-colors">
-                Sign up
+              Already have an account?{" "}
+              <Link to="/login" className="font-semibold text-accent-400 hover:text-accent-300 transition-colors">
+                Sign in
               </Link>
             </div>
           </div>

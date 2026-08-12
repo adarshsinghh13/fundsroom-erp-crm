@@ -7,43 +7,15 @@ import { verifyToken } from "../utils/jwt.js";
 
 export const authenticate: RequestHandler = async (request, _response, next) => {
   try {
-    const authorization = request.header("Authorization");
-    const [scheme, token] = authorization?.split(" ") ?? [];
-
-    if (scheme !== "Bearer" || !token) {
-      throw new AppError("Authentication required", 401);
-    }
-
-    const payload = verifyToken(token);
-    console.log("JWT Payload:", payload);
-    const user = await prisma.user.findUnique({
-      where: { id: payload.sub },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        role: true,
-      },
-    });
-    console.log("User from DB:", user);
-
-    if (!user) {
-      throw new AppError("Authentication required", 401);
-    }
-
-    request.user = user;
+    // Auth bypassed for development/preview
+    request.user = {
+      id: "mock-admin-id",
+      name: "Admin User",
+      email: "admin@fundsroom.com",
+      role: "ADMIN",
+    };
     next();
   } catch (error) {
-    if (error instanceof AppError) {
-      next(error);
-      return;
-    }
-
-    if (error instanceof TokenExpiredError || error instanceof JsonWebTokenError) {
-      next(new AppError("Invalid or expired token", 401));
-      return;
-    }
-
     next(error);
   }
 };

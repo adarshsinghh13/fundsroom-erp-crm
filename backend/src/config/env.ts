@@ -13,13 +13,17 @@ function getEnv(key: string): string {
 }
 
 export const env = {
-  PORT: Number(process.env.PORT) || 5000,
+  PORT: process.env.NODE_ENV === "production" ? Number(process.env.PORT) || 3000 : 3001,
 
   NODE_ENV: process.env.NODE_ENV || "development",
 
-  DATABASE_URL: getEnv("DATABASE_URL"),
+  get DATABASE_URL() {
+    return getEnv("DATABASE_URL");
+  },
 
-  JWT_SECRET: getEnv("JWT_SECRET"),
+  get JWT_SECRET() {
+    return getEnv("JWT_SECRET");
+  },
 
   JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || "7d",
 } as const;
