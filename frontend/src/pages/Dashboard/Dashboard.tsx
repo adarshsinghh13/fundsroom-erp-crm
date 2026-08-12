@@ -1,65 +1,124 @@
-import { LayoutDashboard, Users, Package, Boxes, TrendingUp } from 'lucide-react';
+import {
+  LayoutDashboard,
+  Users,
+  Package,
+  Boxes,
+  TrendingUp,
+  IndianRupee,
+  ArrowUpRight,
+} from "lucide-react";
+
+import {
+  ResponsiveContainer,
+  LineChart,
+  Line,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Tooltip,
+  PieChart,
+  Pie,
+  Cell,
+} from "recharts";
+
+const salesData = [
+  { month: "Jan", sales: 25000 },
+  { month: "Feb", sales: 42000 },
+  { month: "Mar", sales: 31000 },
+  { month: "Apr", sales: 58000 },
+  { month: "May", sales: 49000 },
+  { month: "Jun", sales: 72000 },
+];
+
+const categoryData = [
+  { name: "Electronics", value: 45 },
+  { name: "Hardware", value: 25 },
+  { name: "Office", value: 18 },
+  { name: "Others", value: 12 },
+];
+
+const COLORS = ["#2563eb", "#16a34a", "#f97316", "#9333ea"];
 
 export const Dashboard = () => {
   const stats = [
     {
-      title: 'Total Customers',
-      value: '156',
+      title: "Customers",
+      value: "156",
       icon: Users,
-      color: 'bg-blue-500',
-      bgColor: 'bg-blue-50',
-      textColor: 'text-blue-700',
+      color: "bg-blue-500",
+      growth: "+12%",
     },
     {
-      title: 'Total Products',
-      value: '89',
+      title: "Products",
+      value: "89",
       icon: Package,
-      color: 'bg-purple-500',
-      bgColor: 'bg-purple-50',
-      textColor: 'text-purple-700',
+      color: "bg-purple-500",
+      growth: "+8%",
     },
     {
-      title: 'Stock Items',
-      value: '2,341',
+      title: "Inventory",
+      value: "2,341",
       icon: Boxes,
-      color: 'bg-green-500',
-      bgColor: 'bg-green-50',
-      textColor: 'text-green-700',
+      color: "bg-green-500",
+      growth: "+5%",
     },
     {
-      title: 'Pending Challans',
-      value: '24',
-      icon: TrendingUp,
-      color: 'bg-orange-500',
-      bgColor: 'bg-orange-50',
-      textColor: 'text-orange-700',
+      title: "Revenue",
+      value: "₹7.8L",
+      icon: IndianRupee,
+      color: "bg-orange-500",
+      growth: "+22%",
     },
   ];
 
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900 flex items-center space-x-3">
-          <LayoutDashboard size={32} className="text-blue-600" />
-          <span>Dashboard</span>
-        </h1>
-        <p className="text-gray-600 mt-2">Welcome back! Here's your business overview.</p>
+
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="flex items-center gap-3 text-3xl font-bold">
+            <LayoutDashboard className="text-blue-600" />
+            Dashboard
+          </h1>
+
+          <p className="text-gray-500 mt-2">
+            Welcome back, here's today's overview.
+          </p>
+        </div>
+
+        <button className="rounded-lg bg-blue-600 px-5 py-2 text-white hover:bg-blue-700">
+          Generate Report
+        </button>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map((stat, index) => {
-          const Icon = stat.icon;
+      {/* Cards */}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+        {stats.map((item) => {
+          const Icon = item.icon;
+
           return (
-            <div key={index} className="bg-white rounded-lg shadow p-6">
-              <div className="flex items-center justify-between">
+            <div
+              key={item.title}
+              className="rounded-2xl bg-white p-6 shadow hover:shadow-xl transition"
+            >
+              <div className="flex justify-between">
                 <div>
-                  <p className="text-gray-600 text-sm font-medium">{stat.title}</p>
-                  <p className="text-3xl font-bold text-gray-900 mt-2">{stat.value}</p>
+                  <p className="text-gray-500">{item.title}</p>
+
+                  <h2 className="mt-2 text-3xl font-bold">{item.value}</h2>
+
+                  <div className="mt-4 flex items-center gap-1 text-green-600 text-sm font-semibold">
+                    <ArrowUpRight size={16} />
+                    {item.growth}
+                  </div>
                 </div>
-                <div className={`${stat.bgColor} p-3 rounded-lg`}>
-                  <Icon size={24} className={stat.textColor} />
+
+                <div
+                  className={`h-14 w-14 rounded-xl ${item.color} flex items-center justify-center`}
+                >
+                  <Icon className="text-white" />
                 </div>
               </div>
             </div>
@@ -67,44 +126,112 @@ export const Dashboard = () => {
         })}
       </div>
 
-      {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Sales Chart */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Recent Sales</h2>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">Challan #CH-001</span>
-              <span className="text-sm font-medium text-gray-900">₹15,000</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">Challan #CH-002</span>
-              <span className="text-sm font-medium text-gray-900">₹22,500</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">Challan #CH-003</span>
-              <span className="text-sm font-medium text-gray-900">₹18,750</span>
-            </div>
-          </div>
+      {/* Charts */}
+
+      <div className="grid lg:grid-cols-2 gap-6">
+
+        <div className="rounded-2xl bg-white p-6 shadow">
+          <h2 className="mb-5 text-xl font-semibold">
+            Monthly Revenue
+          </h2>
+
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={salesData}>
+              <CartesianGrid strokeDasharray="4 4" />
+              <XAxis dataKey="month" />
+              <YAxis />
+              <Tooltip />
+              <Line
+                dataKey="sales"
+                stroke="#2563eb"
+                strokeWidth={3}
+              />
+            </LineChart>
+          </ResponsiveContainer>
         </div>
 
-        {/* Inventory Status */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Low Stock Items</h2>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">Product A</span>
-              <span className="text-sm font-medium text-red-600">5 units</span>
+        <div className="rounded-2xl bg-white p-6 shadow">
+          <h2 className="mb-5 text-xl font-semibold">
+            Product Categories
+          </h2>
+
+          <ResponsiveContainer width="100%" height={300}>
+            <PieChart>
+              <Pie
+                data={categoryData}
+                dataKey="value"
+                outerRadius={100}
+                label
+              >
+                {categoryData.map((_, i) => (
+                  <Cell key={i} fill={COLORS[i]} />
+                ))}
+              </Pie>
+
+              <Tooltip />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
+      {/* Bottom */}
+
+      <div className="grid lg:grid-cols-2 gap-6">
+
+        <div className="rounded-2xl bg-white p-6 shadow">
+          <h2 className="text-xl font-semibold mb-5">
+            Recent Sales
+          </h2>
+
+          {[
+            ["CH-001", "₹15,000"],
+            ["CH-002", "₹23,500"],
+            ["CH-003", "₹8,400"],
+            ["CH-004", "₹44,000"],
+          ].map((sale) => (
+            <div
+              key={sale[0]}
+              className="flex justify-between border-b py-3"
+            >
+              <span>{sale[0]}</span>
+
+              <span className="font-semibold text-green-600">
+                {sale[1]}
+              </span>
             </div>
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">Product B</span>
-              <span className="text-sm font-medium text-yellow-600">12 units</span>
+          ))}
+        </div>
+
+        <div className="rounded-2xl bg-white p-6 shadow">
+          <h2 className="text-xl font-semibold mb-5">
+            Low Stock Alerts
+          </h2>
+
+          {[
+            ["Mouse", 5],
+            ["Keyboard", 8],
+            ["Monitor", 2],
+            ["CPU Cabinet", 3],
+          ].map((item) => (
+            <div key={item[0]} className="mb-5">
+              <div className="flex justify-between mb-2">
+                <span>{item[0]}</span>
+
+                <span className="text-red-600 font-semibold">
+                  {item[1]} left
+                </span>
+              </div>
+
+              <div className="h-2 rounded-full bg-gray-200">
+                <div
+                  className="h-2 rounded-full bg-red-500"
+                  style={{
+                    width: `${(item[1] as number) * 10}%`
+                  }}
+                />
+              </div>
             </div>
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">Product C</span>
-              <span className="text-sm font-medium text-yellow-600">8 units</span>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>

@@ -47,7 +47,6 @@ export const updateCustomer = async (
   const response = await api.patch(`/customers/${id}`, data);
   return response.data;
 };
-
 export const deleteCustomer = async (id: string) => {
   const response = await api.delete(`/customers/${id}`);
   return response.data;
