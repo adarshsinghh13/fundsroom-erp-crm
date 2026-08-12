@@ -1,69 +1,69 @@
-# Mini ERP CRM
+# Fundsroom ERP + CRM
 
-A modern ERP & CRM web application built for small and medium businesses to manage customers, inventory, products, and sales from a single dashboard.
+A full-stack ERP & CRM web application built for small and medium-sized businesses to manage customers, products, inventory, and sales operations from a unified dashboard.
+
+---
+
+## Live Demo
+
+### Frontend
+
+https://fundsroom-erp-crm-beta.vercel.app
+
+### Backend API
+
+https://fundsroom-erp-crm-2.onrender.com
 
 ---
 
 ## Features
 
 ### Dashboard
-- Business overview dashboard
-- Revenue analytics
-- Customer statistics
-- Inventory summary
-- Product category distribution
-- Low stock alerts
-- Recent sales activity
 
----
+- Business overview dashboard
+- Customer statistics
+- Product overview
+- Inventory summary
+- Revenue analytics
+- Low stock indicators
+- Recent activity cards
 
 ### Customer Management
 
-- Add Customers
-- Edit Customers
-- Delete Customers
-- Search Customers
-- Customer Status
-- Business Details
-
----
+- Add customers
+- Edit customer information
+- Delete customers
+- Search customers
+- View customer details
 
 ### Product Management
 
-- Add Products
-- Product Categories
-- SKU Management
-- Price Management
-- Inventory Tracking
-- Product Status
+- Add products
+- Product categorization
+- SKU management
+- Unit price management
+- Inventory tracking
 
----
+### Inventory Management
 
-### Inventory
-
-- Stock Management
-- Product Availability
-- Low Stock Monitoring
-- Category Wise Products
-
----
+- Product inventory overview
+- Stock tracking
+- Low stock monitoring
+- Category-wise inventory
 
 ### Sales Challans
 
-- Create Challans
-- View Challans
-- Customer Mapping
-- Amount Tracking
-- Status Management
-
----
+- Create challans
+- Customer mapping
+- Product mapping
+- Challan management
 
 ### Authentication
 
 - JWT Authentication
-- Secure Login
-- Protected Routes
-- Role Based Structure (Ready)
+- Secure login
+- Protected API routes
+- Role-ready architecture
 
 ---
 
@@ -87,7 +87,7 @@ A modern ERP & CRM web application built for small and medium businesses to mana
 - TypeScript
 - Prisma ORM
 - PostgreSQL
-- JWT
+- JWT Authentication
 - Zod Validation
 - Bcrypt
 
@@ -95,18 +95,28 @@ A modern ERP & CRM web application built for small and medium businesses to mana
 
 - PostgreSQL
 
+### Deployment
+
+- Frontend: Vercel
+- Backend: Render
+
 ---
 
 ## Project Structure
 
 ```
-mini-erp-crm
+fundsroom-erp-crm/
 
-├── frontend
+├── frontend/
+│   ├── src/
+│   ├── public/
+│   └── package.json
 │
-├── backend
-│
-├── prisma
+├── backend/
+│   ├── src/
+│   ├── prisma/
+│   ├── generated/
+│   └── package.json
 │
 └── README.md
 ```
@@ -124,29 +134,19 @@ mini-erp-crm
 
 ---
 
-## Installation
+## Getting Started
 
 ### Clone Repository
 
 ```bash
 git clone https://github.com/adarshsinghh13/fundsroom-erp-crm.git
+
+cd fundsroom-erp-crm
 ```
 
 ---
 
-### Frontend
-
-```bash
-cd frontend
-
-npm install
-
-npm run dev
-```
-
----
-
-### Backend
+## Backend Setup
 
 ```bash
 cd backend
@@ -158,73 +158,76 @@ npm run dev
 
 ---
 
+## Frontend Setup
+
+```bash
+cd frontend
+
+npm install
+
+npm run dev
+```
+
+---
+
 ## Environment Variables
 
-### Backend
+### Backend (.env)
 
-```
-DATABASE_URL=
+```env
+DATABASE_URL=your_postgresql_connection_string
 
-JWT_SECRET=
+JWT_SECRET=your_secret_key
 
 PORT=5000
 ```
 
-### Frontend
+### Frontend (.env)
 
-```
+```env
 VITE_API_URL=http://localhost:5000/api
 ```
 
+For production:
+
+```env
+VITE_API_URL=https://fundsroom-erp-crm-2.onrender.com/api
+```
+
 ---
 
-## API Modules
+## REST API
 
 ### Authentication
 
-- Login
-- Register
-- Profile
+- POST /api/auth/login
+- POST /api/auth/register
+- GET /api/auth/profile
 
 ### Customers
 
-- Get Customers
-- Add Customer
-- Update Customer
-- Delete Customer
+- GET /api/customers
+- POST /api/customers
+- PATCH /api/customers/:id
+- DELETE /api/customers/:id
 
 ### Products
 
-- Get Products
-- Add Product
-- Update Product
-- Delete Product
+- GET /api/products
+- POST /api/products
+- PATCH /api/products/:id
+- DELETE /api/products/:id
 
 ### Inventory
 
-- Inventory Management
+- GET /api/inventory
 
 ### Sales Challans
 
-- Create Challan
-- Update Challan
-- Delete Challan
-
----
-
-## Future Improvements
-
-- Purchase Orders
-- GST Invoice Generation
-- PDF Export
-- Excel Export
-- Email Notifications
-- Multi Company Support
-- Role Based Access Control
-- Supplier Management
-- Reports Module
-- Dashboard Filters
-- Dark Mode
+- GET /api/challans
+- POST /api/challans
+- PATCH /api/challans/:id
+- DELETE /api/challans/:id
 
 ---
 
@@ -240,14 +243,30 @@ Password123
 
 ---
 
-## Authors
+## Future Enhancements
 
-Developed by
+- Purchase Orders
+- GST Invoice Generation
+- Invoice PDF Export
+- Excel Reports
+- Email Notifications
+- Supplier Management
+- Multi-company Support
+- Advanced Reporting
+- Role-Based Access Control
+- Dashboard Analytics
+- Dark Mode
+
+---
+
+## Author
 
 **Adarsh Singh**
+
+- GitHub: https://github.com/adarshsinghh13
 
 ---
 
 ## License
 
-MIT License
+This project is licensed under the MIT License.
